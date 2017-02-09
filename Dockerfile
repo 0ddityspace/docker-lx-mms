@@ -3,6 +3,7 @@ FROM node:4-alpine
 MAINTAINER 0ddity.space
 
 ENV MMS_COMMUNITY_VERSION 1.9.4 
+ENV PORT 3333
 
 RUN MMS_FILE_NAME_NO_ARCH=mms-v$MMS_COMMUNITY_VERSION-community-linux.tar.gz && \
         apk --update add --virtual deps curl && \
@@ -15,10 +16,9 @@ RUN MMS_FILE_NAME_NO_ARCH=mms-v$MMS_COMMUNITY_VERSION-community-linux.tar.gz && 
         ./install.sh && \
         rm -rf /tmp/* && \
         apk del deps && \
-        sed -i s/127.0.0.1/0.0.0.0/g /opt/lx-mms/config.js
-
-EXPOSE 3333
+        sed -i s/127.0.0.1/0.0.0.0/g /opt/lx-mms/config.js && \
+        sed -i s/3333/$PORT/g /opt/lx-mms/config.js
 
 VOLUME ["/root/.mms"]
 
-CMD lx-mms
+CMD sed -i s/3333/$PORT/g /opt/lx-mms/config.js && lx-mms
