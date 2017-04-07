@@ -17,7 +17,7 @@ RUN MMS_FILE_NAME_NO_ARCH=mms-v$MMS_COMMUNITY_VERSION-community-linux.tar.gz && 
         rm -rf /tmp/* && \
         apk del deps && \
         sed -i s/127.0.0.1/0.0.0.0/g /opt/lx-mms/config.js && \
-        sed -i s/3333/$PORT/g /opt/lx-mms/config.js
+        sed -i 's/window.io.sockets\[window.location.origin\]/window.io.sockets\[window.location.origin\]||window.io.sockets\[Object.keys(window.io.sockets)[0]\]/g' /opt/lx-mms/.dist/public/scripts/main/*.scripts.js 
 
 VOLUME ["/root/.mms"]
 
